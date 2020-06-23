@@ -982,7 +982,8 @@ void _glfwPlatformSetWindowTitle(_GLFWwindow* window, const char* title)
 void _glfwPlatformSetWindowIcon(_GLFWwindow* window,
                                 int count, const GLFWimage* images)
 {
-    // Regular windows do not have icons
+    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+                    "Cocoa: Regular windows do not have icons on macOS");
 }
 
 void _glfwPlatformGetWindowPos(_GLFWwindow* window, int* xpos, int* ypos)
@@ -1376,6 +1377,8 @@ void _glfwPlatformSetWindowOpacity(_GLFWwindow* window, float opacity)
 
 void _glfwPlatformSetRawMouseMotion(_GLFWwindow *window, GLFWbool enabled)
 {
+    _glfwInputError(GLFW_FEATURE_UNIMPLEMENTED,
+                    "Cocoa: Raw mouse motion not yet implemented");
 }
 
 GLFWbool _glfwPlatformRawMouseMotionSupported(void)
@@ -1716,6 +1719,21 @@ const char* _glfwPlatformGetClipboardString(void)
     return _glfw.ns.clipboardString;
 
     } // autoreleasepool
+}
+
+EGLenum _glfwPlatformGetEGLPlatform(void)
+{
+    return 0;
+}
+
+EGLNativeDisplayType _glfwPlatformGetEGLNativeDisplay(void)
+{
+    return EGL_DEFAULT_DISPLAY;
+}
+
+EGLNativeWindowType _glfwPlatformGetEGLNativeWindow(_GLFWwindow* window)
+{
+    return window->ns.layer;
 }
 
 void _glfwPlatformGetRequiredInstanceExtensions(char** extensions)
